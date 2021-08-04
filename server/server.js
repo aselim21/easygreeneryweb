@@ -4,16 +4,20 @@ const { resourceLimits } = require('worker_threads');
 const express = require('express');
 const app = express();
 app.use(express.json());
+const MongodbURI = "mongodb+srv://green-server-admin:green1234@cluster0.c4akl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+const client = new MongoClient(MongodbURI);
 
 maximumNumberOfResults = Number.MAX_SAFE_INTEGER;
 
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     next();
-  });
-  
+});
+
 app.post('/plants', (req, res) => {
     console.log(req.body);
+
     //validate
     // const schema = Joi.object({
     //     "username": Joi.string().min(3).required(),
@@ -42,16 +46,21 @@ app.post('/plants', (req, res) => {
         "watering_frequency": req.body.watering_frequency,
         "watering_amount": req.body.watering_amount
     };
-    //createRow(UpdatedPlantInfo);
-    console.log(UpdatedPlantInfo);
-
-    // res.location(`/users/${parseInt(presentUser) + 1}`);
-    // res.send(newUser);
+    communicateWithDB(req.body).catch(console.error);
 });
 
+async function communicateWithDB(data) {
+    try {
+        await client.connect();
+        await createRow(data);
+    } catch (e) {
+        console.error(e);
+    } finally {
+        await client.close();
+    }
+}
 
 // async function main(){
-
 
 //     try {
 //         await client.connect();
@@ -75,32 +84,27 @@ app.post('/plants', (req, res) => {
 
 // main().catch(console.error);
 
-// async function listDatabasess(client){
-//     const databasesList = await client.db().admin().listDatabases();
-//     console.log("Databases:");
+async function listDatabasess(client) {
+    const databasesList = await client.db().admin().listDatabases();
+    console.log("Databases:");
 
-//     databasesList.databases.forEach(db => {
-//         console.log(db.name);
-//     });
-// }
+    databasesList.databases.forEach(db => {
+        console.log(db.name);
+    });
+}
 
-async function createRow(newRow) {
-    const uri = "mongodb+srv://easy-greenery-admin-a:0889928273@cluster0.c4akl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
-
-    const client = new MongoClient(uri);
+async function createRow(newData) {
 
     try {
-        await client.connect();
-        const result = await client.db("easygreenery_plants").collection("plants").insertOne(newRow);
+        const result = await client.db("easygreenery_plants").collection("plants").insertOne(newData);
         console.log(`Inserted new row in easygreenery_plant -> plants with id ${result.insertedId}`);
+
     } catch (e) {
         console.error(e);
-    } finally {
-        await client.close();
     }
-    
+
 }
-async function findByNickname(client, the_nickname) {
+async function findByNickname(the_nickname) {
     const cursor = await client.db("easygreenery_plants").collection("plants").find({ nickname: the_nickname });;
     const results = await cursor.toArray();
     if (results.length > 0) {
