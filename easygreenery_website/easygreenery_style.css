@@ -192,7 +192,7 @@ header nav ul li:hover{
     -moz-border-radius: 100%;
 }
 
-.myButton {
+button {
 	background:linear-gradient(to bottom, #b8e356 5%, #5FA819 100%);
 	background-color:#b8e356;
 	border-radius:20px;
@@ -205,12 +205,12 @@ header nav ul li:hover{
 	text-decoration:none;
 }
 
-.myButton:hover {
+button:hover {
 	background:linear-gradient(to bottom, #5FA819 5%, #b8e356 100%);
 	background-color:#5FA819;
 }
 
-.myButton:active {
+button:active {
 	position:relative;
 	top:1px;
 }
