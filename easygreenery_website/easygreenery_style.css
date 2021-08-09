@@ -224,3 +224,7 @@ button:active {
     justify-content: center;
     table-layout: auto;
 }
+
+fieldset{
+    border: transparent;
+}
