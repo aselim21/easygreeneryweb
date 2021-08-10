@@ -157,7 +157,7 @@ header nav ul li:hover{
     height: 100vh;
     display: grid;
     gap: 2%;
-    grid-template-columns:10% 30% 50% 10%;
+    grid-template-columns:10% 25% 55% 10%;
     grid-template-rows: 25% 30% 30% 15%;
     grid-template-areas: 
     "abstand1 abstand2 abstandoben abstandoben"
