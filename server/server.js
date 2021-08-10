@@ -14,7 +14,7 @@ maximumNumberOfResults = Number.MAX_SAFE_INTEGER;
 
 let save_plant = {
     "plantNR": "1",
-    "nickname": "Dafault",
+    "nickname": "Plant",
     "plant_art": "tomato",
     "moisture_min": 300,
     "moisture_max": 900
@@ -113,6 +113,10 @@ app.post('/water_me', (req, res) => {
     mqttPublish(PubTopic_water_me, data, mqttClient);
     //mqttSubscribe(SubTopic_water_me_result);
 
+});
+app.get('/nickname', (req, res) => {
+    
+    res.send(save_plant.nickname);
 });
 
 

@@ -1,27 +1,51 @@
+const serverURL = 'http://localhost:3000';
 window.addEventListener('DOMContentLoaded', (event) => {
     console.log('DOM fully loaded and parsed');
-    const serverURL = 'http://localhost:3000';
 
     listenButton('sensor-plant-data-js', serverURL, 'sensor_plant_data');
     listenButton('water-me-js', serverURL, 'water_me');
     listenSaveButton('save-plant-js', serverURL, 'save_plant');
-    httpGetAsync(`${serverURL}/history`);
+    httpGetHistoryAsync(`${serverURL}/history`, './template.mustache');
+    httpGetHistoryAsync(`${serverURL}/nickname`, false);
 });
 
-function httpGetAsync(theUrl) {
+// function httpGetNickname(theUrl) {
+//     const xhttp = new XMLHttpRequest();
+//     xhttp.open("GET", theUrl);
+//     xhttp.send();
+    
+//     xhttp.onreadystatechange = (e) => {
+//         // console.log(xhttp.responseText);
+  
+//         fetch('./template.mustache'). then((response)=> response.text()).then((template)=>{
+//             console.log(template);
+//             const obj = JSON.parse( xhttp.responseText);
+//             let rendered = Mustache.render(template, obj);
+//             document.getElementById('target').innerHTML = rendered;
+//         });
+//     }
+// }
+
+
+function httpGetHistoryAsync(theUrl, the_template) {
     const xhttp = new XMLHttpRequest();
     xhttp.open("GET", theUrl);
     xhttp.send();
     
     xhttp.onreadystatechange = (e) => {
         // console.log(xhttp.responseText);
-  
-        fetch('./template.mustache'). then((response)=> response.text()).then((template)=>{
+   if(the_template != ''){
+        fetch(the_template). then((response)=> response.text()).then((template)=>{
             console.log(template);
             const obj = JSON.parse( xhttp.responseText);
             let rendered = Mustache.render(template, obj);
-            document.getElementById('target').innerHTML = rendered
+            document.getElementById('target').innerHTML = rendered;
         });
+    }else{
+        document.getElementById('nickname').innerHTML = xhttp.responseText;
+    }
+    
+
     }
 }
 // async function getDB() {
@@ -89,6 +113,11 @@ function listenSaveButton(buttonId, serverURL, endpoint) {
         const data = getFormDataAsJSON();
         console.log(data);
         POSTInfoToServer(data, `${serverURL}/${endpoint}`);
+        setTimeout(function(){
+            httpGetHistoryAsync(`${serverURL}/nickname`, false);
+            
+        },1000);
+        
     });
 }
 
@@ -98,6 +127,11 @@ function POSTInfoToServer(data, serverURL_Endpoint) {
     xhttp.setRequestHeader("Accept", "application/json");
     xhttp.setRequestHeader("Content-Type", "application/json");
     xhttp.send(data);
+
+    setTimeout(function(){
+        httpGetHistoryAsync(`${serverURL}/history`, './template.mustache');
+    },7000);
+    
 }
 
 

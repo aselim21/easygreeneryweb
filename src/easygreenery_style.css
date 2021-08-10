@@ -59,9 +59,34 @@ p{
 }
 
 table{
-    text-align: left; 
+    align-self: center;
+    font-size: 0.8rem;
+}
+table, td, th {
+    border: 2px solid #aaaaaa;
+    border-collapse: collapse;
+}
+td,th{
+    width: 10rem;
+    height: 1.5rem;
+    text-align: center;
+}
+th{
+    color: #4D916A;
 }
 
+select{
+    width: 10rem;
+    height: 1.5rem;
+    padding-bottom: 0.5rem;
+    border: 2px solid #aaaaaa;
+}
+input{
+    width: 9.5rem;
+    height: 1rem;
+    padding-bottom: 0.5rem;
+    border: 2px solid #aaaaaa;
+}
 hr{
     width: 30px;
     height: 3px;
