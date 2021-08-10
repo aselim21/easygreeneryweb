@@ -1,0 +1,239 @@
+html, body{
+    margin: 0;
+    padding: 0;
+    height:100%;
+    text-align:center;
+    font-family: verdana;             
+    width: 100%;
+    background: url(img/home_background.jpg);
+    background-size:cover;
+}
+
+section{
+    min-height: 100%;
+}
+
+a{
+    text-decoration: none;
+    color: black;
+}
+
+li{
+    list-style-type: none;
+    color: black;
+}
+
+.right {
+    display:flex;
+    align-self: flex-end;
+    margin:5px;
+    padding:3px;
+    background-color:rgba(255,255,255,0.9);
+    width:80%;
+}
+
+h1,h2,h3,h4{
+    font-family: verdana;
+    font-weight: 10;
+}
+
+h1{
+    color:black;
+}
+
+h2,h4{
+    color:#99CC66;
+}
+
+h3{
+    font-size: 40px;
+    padding-top: 5%;
+    margin-bottom: 5px;
+    color: white;
+    font-weight: 300;
+}
+
+p{
+    font-family: verdana;
+    text-align: center; 
+}
+
+table{
+    text-align: left; 
+}
+
+hr{
+    width: 30px;
+    height: 3px;
+    background: white;
+    border:0px;
+    margin: 0 auto 40px auto;
+}
+
+li,#logo, img{
+    transition: all 300ms;
+}
+
+/*header***************************************************/
+header{
+    width: 100%;
+    height: 65px;
+    position: fixed;
+    top:0;
+    left:0;
+    background: white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    z-index: 1;
+}
+
+#logo{
+    width: 200px;
+    float:left;
+    margin-top: 10px;
+    margin-left: 50px;
+}
+
+#logo:hover{
+    opacity: 0.5;
+}
+
+#logo img {
+    width: 130%;  
+}
+
+
+header nav{
+    float: right;
+}
+
+header nav ul li{
+    float: left;
+    margin-right: 25px;
+    margin-top: 7px;
+}
+
+header nav ul li a{
+    font-size: 16px;
+}
+
+header nav ul li:hover{
+    padding-top: 5px;
+}
+
+/*home***************************************************/
+
+#home{
+    background: url(img/home_background.jpg);
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+#home h3{
+    margin: 240px auto 0 auto;
+    font-size: 110px;
+}   
+    
+#home img{
+    width:32px;
+    margin-top: 150px;
+    opacity: 0.7;
+}
+
+#home img:hover{
+    opacity: 1;
+}
+
+#home p{
+    width: 700px;
+    margin: 0 auto 0 auto;
+    color: white;    
+}
+
+
+/*my-garden***************************************************/
+.grid-box{
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    gap: 2%;
+    grid-template-columns:10% 30% 50% 10%;
+    grid-template-rows: 25% 30% 30% 15%;
+    grid-template-areas: 
+    "abstand1 abstand2 abstandoben abstandoben"
+    "abstandlinks zeile1 zeile2 abstandrechts"
+    "abstandlinks zeile1 zeile2 abstandrechts"
+    "abstandunten abstandunten abstandunten abstandunten";
+    justify-content: center;    
+}
+
+/*my-garden-ueberschrift***************************************************/
+.box-0{
+    grid-area: abstand2;
+    text-align:left;
+    margin-top: auto;    
+}
+
+/*my-garden-plant***************************************************/
+.box-1{
+    background: white;
+    border-radius: 20px ;
+    grid-area: zeile1;
+    justify-content: center;
+    text-align: center;
+    align-items: center;   
+}
+
+.bild{
+    width: 60%;
+    height: auto;
+    border-radius: 100%;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+}
+
+button {
+	background:linear-gradient(to bottom, #b8e356 5%, #5FA819 100%);
+	background-color:#b8e356;
+	border-radius:20px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:verdana;
+	font-size:17px;
+	padding:16px 31px;
+	text-decoration:none;
+}
+
+button:hover {
+	background:linear-gradient(to bottom, #5FA819 5%, #b8e356 100%);
+	background-color:#5FA819;
+}
+
+button:active {
+	position:relative;
+	top:1px;
+}
+
+/*my-garden-history***************************************************/
+.box-2{
+    background: white;
+    grid-area: zeile2;
+    border-radius: 20px;
+    text-align: center;
+    justify-content: center;
+    table-layout: auto;
+}
+
+fieldset{
+    border: transparent;
+}
+
+.my-custom-scrollbar {
+    position: relative;
+    height: 200px;
+    overflow: auto;
+    }
+    .table-wrapper-scroll-y {
+    display: block;
+    }
