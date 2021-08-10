@@ -7,10 +7,19 @@ const app = express();
 app.use(express.json());
 const MongodbURI = "mongodb+srv://green-server-admin:green1234@cluster0.c4akl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 const mongoClient = new MongoClient(MongodbURI);
-const plant_art_collection = "plant_arts";
 const water_me_collection = 'water_me';
 const sensor_plant_data_collection = 'sensor_plant_data'
+const save_plant_collection = 'save_plant'
 maximumNumberOfResults = Number.MAX_SAFE_INTEGER;
+
+let save_plant={
+    "plantNR":"1",
+    "nickname":"Dafault",
+    "plant_art":"tomato",
+    "moisture_min":300,
+    "moisture_max":900
+}
+let plant_art =save_plant.plant_art;
 
 //topics
 // const PubTopic_water_me = "/achelia200@gmail.com/water_me";
@@ -44,28 +53,38 @@ mqttClient.on('connect', function () { // Check you have a connection
         const timeNow = getCurrentTime();
         let data;
         let collection;
+        
       
         if (topic.localeCompare(SubTopic_water_me_result)==0) {
             data = {
+                "plantNR":"1",
+                'plant_art':plant_art,
                 'date': timeNow,
                 'info': message.toString()
             }
             collection = water_me_collection;
             
         } else if (topic.localeCompare(SubTopic_sensor_plant_data_result)==0) {
-            const info = message.toString().split(';');
+            const sensor_index = message.toString().split(';');
+            let info;
+            if(sensor_index[0] <= save_plant.moisture_min){
+                info = "TOO DRY!";
+            }else if(sensor_index[0]> save_plant.moisture_min && sensor_index[0]< save_plant.moisture_max){
+                info = "NORMAL";
+            }else if(sensor_index[0]>=save_plant.moisture_max){
+                info = "TOO WET!";
+            }
             data = {
+                "plantNR":"1",
+                'plant_art':plant_art,
                 'date': timeNow,
-                'moisture': info[0],
-                'water_level': info[1]
+                'moisture': sensor_index[0],
+                'water_level': sensor_index[1],
+                'info':info
             }
             collection = sensor_plant_data_collection;
         }
         communicateWithDB(data, collection).catch(console.error);
-
-
-
-
 
     });
     mqttClient.on('offline', () => {
@@ -179,14 +198,36 @@ app.post('/sensor_plant_data', (req, res) => {
 
     const data = req.body.sensor_plant_data;
     mqttPublish(PubTopic_sensor_plant_data, data, mqttClient);
-    //mqttSubscribe(SubTopic_sensor_plant_data_result);
-    //dins the min from the name/type of the plant
-    const tese_sensor_data = {
-        "moisture_max": 200,
-        "moisture_actual": 50,
-        "empty": false
+    
+});
+app.post('/save_plant', (req, res) => {
+
+    let moisture_min;
+    let moisture_max;
+    if(req.body.plant_art == "cactus"){
+        moisture_min = 0 ;
+        moisture_max = 300;
     }
-    //communicateWithDB(tese_sensor_data, sensor_data_collection).catch(console.error);
+    if(req.body.plant_art == "tomato"){
+        moisture_min = 300;
+        moisture_max = 100;
+    }
+    if(req.body.plant_art == "lily"){
+        moisture_min = 1000;
+        moisture_max = 2000;
+    }
+    const data = {
+        "plantNR":"1",
+        "nickname":req.body.nickname,
+        "plant_art":req.body.plant_art,
+        "moisture_min":moisture_min,
+        "moisture_max":moisture_max
+    };
+    communicateWithDB(data,save_plant_collection).catch(console.error);
+    //findByPlantNR('1');
+    save_plant = data;
+    plant_art = req.body.plant_art;
+    // console.log(plant_art);
 });
 
 app.post('/water_me', (req, res) => {
@@ -227,13 +268,21 @@ app.post('/plants', (req, res) => {
 
 async function communicateWithDB(data, selected_collection) {
     try {
+        await mongoClient.close();
         await mongoClient.connect();
         await createRow(data, selected_collection);
     } catch (e) {
         console.error(e);
-    } finally {
+    } 
+}
+async function askDB() {
+    try {
         await mongoClient.close();
-    }
+        await mongoClient.connect();
+        await findByPlantNR('1');
+    } catch (e) {
+        console.error(e);
+    } 
 }
 
 // async function main(){
@@ -284,12 +333,45 @@ async function findByNickname(the_nickname) {
     const results = await cursor.toArray();
     if (results.length > 0) {
         console.log(`Found a listing in the collection with the nickname '${the_nickname}':`);
-        results.forEach((result) => {
-            console.log(result);
-        });
+        // results.forEach((result) => {
+        //     console.log(result);
+        // });
+        console.log(results[result.length])
         return results;
     } else {
         console.log(`No listings found with the nickname '${the_nickname}'`);
+        return 0;
+    }
+}
+
+async function findByPlantNR(the_plantNR) {
+    const cursor = await mongoClient.db("easygreenery_plants").collection("save_plant").find({ plantNR: the_plantNR });;
+    const results = await cursor.toArray();
+    if (results.length > 0) {
+        console.log(`Found a listing in the collection with the plantNR '${the_plantNR}':`);
+        const result = results[results.length -1 ];
+        console.log(result);
+        save_plant = result;
+        plant_art = result.plant_art;
+        console.log(plant_art);
+        return result;
+    } else {
+        console.log(`No listings found with the plantNR '${the_plantNR}'`);
+        return 0;
+    }
+}
+async function findByPlantNR_One(the_plantNR) {
+    const result = await mongoClient.db("easygreenery_plants").collection("save_plant").findOne({ plantNR: the_plantNR });
+    if (result) {
+    //     console.log(`Found a listing in the collection with the plantNR '${the_plantNR}':`);
+        // results.forEach((result) => {
+        //     console.log(result);
+        // });
+        console.log(result)
+        
+        return result;
+    } else {
+        console.log(`No listings found with the plantNR '${the_plantNR}'`);
         return 0;
     }
 }

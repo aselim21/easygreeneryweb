@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./assets/styles/reset.css" />
+    <link rel="stylesheet" type="text/css" href="./assets/styles/variables.css" />
+    <link rel="stylesheet" type="text/css" href="./assets/styles/base.css" />
+    <link rel="stylesheet" type="text/css" href="./assets/styles/components.css" />
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script src="./assets/scripts/index.js"></script>
+    <title>Easy Geenery - Homepage</title>
+</head>
+
+<body>
+    <header>
+        <div class="header">
+            <h1>Easy Geenery</h1>
+        </div>
+        <div class="menu">
+        </div>
+        <article>
+            <h2>Arthur</h2>
+            <h3>Sansevieria</h3>
+            <table>
+                <tr>
+                    <th>Moisture</th>
+                    <th>Light sensor</th>
+                    <th>Water need</th>
+                </tr>
+                <tr>
+                    <td>00.00</td>
+                    <td>00.00</td>
+                    <td>No</td>
+                </tr>
+            </table>
+            <form action=" ">
+                <fieldset>
+                    <div class="field-with-label">
+                        <label for="nickname">Nickname</label>
+                        <input type="text" id="nickname" name="nickname" placeholder="MyAmazingPlantFromTokyo">
+                    </div>
+                    <div class="field-with-label">
+                        <label for="plantname">Plant:</label>
+                        <input type="text" id="plantname" name="plantname" placeholder="Cactus">
+                    </div>
+                    <div class="field-with-label">
+                        <label for="day_length">Day Length:</label>
+                        <input type="number" id="day_length" name="day_length" placeholder="16,5">
+                    </div>
+                    <div class="field-with-label">
+                        <label for="light_strength">Light strength:</label>
+                        <select id="light_strength" name="light_strength">
+                            <option value="choose" selected>choose</option>
+                            <option value="high">High</option>
+                            <option value="middle">Middle</option>
+                            <option value="low">Low</option>
+                        </select>
+                    </div>
+                    <div class="field-with-label">
+                        <label for="watering_frequency">Watering frequency:</label>
+                        <select id="watering_frequency" name="watering_frequency">
+                            <option value="choose" selected>choose</option>
+                            <option value="everyday">everyday</option>
+                            <option value="every_week">every week</option>
+                            <option value="every_month">every month</option>
+                            <option value="every_year">every_year</option>
+                        </select>
+                    </div>
+                    <div class="field-with-label">
+                        <label for="watering_amount">Watering amount:</label>
+                        <select id="watering_amount" name="watering_amount">
+                            <option value="choose" selected>choose</option>
+                            <option value="one">1</option>
+                            <option value="two">2</option>
+                            <option value="three">3</option>
+                            <option value="four">4</option>
+                            <option value="five">5</option>
+                        </select>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <div class="buttons">
+                        <!-- <input type="submit" value="Submit"> -->
+                        <button id='sensor-plant-data-js' onclick="return false;" >Sensor Plant Data</button>
+                        <button id='cancel-plant-update-info'>Cancel</button>
+                        <button id='water-me-js' onclick="return false;" >water me</button>
+                    </div>
+                </fieldset>
+            </form>
+            
+        </article>
+    </header>
+</body>
+
+</html>
