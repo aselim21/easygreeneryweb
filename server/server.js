@@ -40,7 +40,7 @@ app.use((req, res, next) => {
     next();
 });
 
-app.get('history', (req, res) => {
+app.get('/history', (req, res) => {
     try {
         mongoClient.connect().then(()=>{
             findWaterMe_ByPlant_art(plant_art).then((results)=>{
@@ -55,19 +55,19 @@ app.get('history', (req, res) => {
     } 
 });
 
-app.get('home', (req,res)=>{
+app.get('/home', (req,res)=>{
     res.sendFile(path.join(__dirname, '../src', 'index.html'));
 })
-app.get('my_garden', (req,res)=>{
+app.get('/my_garden', (req,res)=>{
     res.sendFile(path.join(__dirname, '../src', 'my_garden.html'));
 })
 
-app.post('sensor_plant_data', (req, res) => {
+app.post('/sensor_plant_data', (req, res) => {
     const data = req.body.sensor_plant_data;
     mqttPublish(PubTopic_sensor_plant_data, data, mqttClient);
 });
 
-app.post('save_plant', (req, res) => {
+app.post('/save_plant', (req, res) => {
 
     let moisture_min;
     let moisture_max;
@@ -95,12 +95,12 @@ app.post('save_plant', (req, res) => {
     plant_art = req.body.plant_art;
 });
 
-app.post('water_me', (req, res) => {
+app.post('/water_me', (req, res) => {
     const data = req.body.water_me;
     mqttPublish(PubTopic_water_me, data, mqttClient);
 });
 
-app.get('nickname', (req, res) => {
+app.get('/nickname', (req, res) => {
     res.send(save_plant.nickname);
 });
 
