@@ -3,8 +3,10 @@ const { MongoClient } = require('mongodb');
 const { resourceLimits } = require('worker_threads');
 const express = require('express');
 const mqtt = require('mqtt');
+var path = require('path');
 const app = express();
 app.use(express.json());
+app.use(express.static("src"));
 const MongodbURI = "mongodb+srv://green-server-admin:green1234@cluster0.c4akl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 const mongoClient = new MongoClient(MongodbURI);
 const water_me_collection = 'water_me';
@@ -52,6 +54,13 @@ app.get('/history', (req, res) => {
         console.error(e);
     } 
 });
+
+app.get('/home', (req,res)=>{
+    res.sendFile(path.join(__dirname, '../src', 'index.html'));
+})
+app.get('/my_garden', (req,res)=>{
+    res.sendFile(path.join(__dirname, '../src', 'my_garden.html'));
+})
 
 app.post('/sensor_plant_data', (req, res) => {
     const data = req.body.sensor_plant_data;
