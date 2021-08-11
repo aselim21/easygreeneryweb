@@ -1,4 +1,4 @@
-const serverURL = 'http://easy-greenery.herokuapp.com/';
+const serverURL = 'https://easy-greenery.herokuapp.com/';
 
 window.addEventListener('DOMContentLoaded', (event) => {
     console.log('DOM fully loaded and parsed');
