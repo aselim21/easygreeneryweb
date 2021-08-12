@@ -47,7 +47,6 @@ h2,h4{
 
 h3{
     font-size: 40px;
-    padding-top: 5%;
     margin-bottom: 5px;
     color: white;
     font-weight: 300;
@@ -156,7 +155,7 @@ header nav ul li:hover{
 }
 
 #home h3{
-    margin: 240px auto 0 auto;
+    margin: 180px auto 0 auto;
     font-size: 110px;
 }   
     
