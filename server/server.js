@@ -1,6 +1,4 @@
-const { ObjectID } = require('bson');
 const { MongoClient } = require('mongodb');
-const { resourceLimits } = require('worker_threads');
 const express = require('express');
 const mqtt = require('mqtt');
 var path = require('path');
@@ -33,6 +31,7 @@ const mqttOptions = {
     host: 'broker.hivemq.com',
     port: 1883,
 }
+sensorDataEveryTwelveHours();
 
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
@@ -194,7 +193,14 @@ function mqttPublish(topic, mqttMessage, mqttClient) {
         console.log(mqttMessage);
     });
 }
-
+function sensorDataEveryTwelveHours(){
+    data = "Daily check";
+    mqttPublish(PubTopic_sensor_plant_data, data, mqttClient);
+    setTimeout(function () {
+        sensorDataEveryTwelveHours();
+        //every 12 hours
+    }, 43200);
+}
 //db
 async function createRowinDB(data, selected_collection) {
     try {
