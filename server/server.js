@@ -76,7 +76,7 @@ app.post('/save_plant', (req, res) => {
     }
     if (req.body.plant_art == "tomato") {
         moisture_min = 300;
-        moisture_max = 100;
+        moisture_max = 1000;
     }
     if (req.body.plant_art == "lily") {
         moisture_min = 1000;
